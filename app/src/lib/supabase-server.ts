@@ -17,7 +17,9 @@ export const supabaseServerClient: Handle = async ({ event, resolve }) => {
 
 	event.locals.getSession = async () => {
 		try {
-			const { data: { session } } = await event.locals.supabase.auth.getSession();
+			const {
+				data: { session }
+			} = await event.locals.supabase.auth.getSession();
 			return session;
 		} catch (error) {
 			console.error('Failed to get session:', error);

@@ -19,14 +19,14 @@
 
 	onMount(() => {
 		if (!data.supabase) return;
-		
-		const { data: { subscription } } = data.supabase.auth.onAuthStateChange(
-			(event, newSession) => {
-				if (newSession?.expires_at !== data.session?.expires_at) {
-					invalidate('supabase:auth');
-				}
+
+		const {
+			data: { subscription }
+		} = data.supabase.auth.onAuthStateChange((event, newSession) => {
+			if (newSession?.expires_at !== data.session?.expires_at) {
+				invalidate('supabase:auth');
 			}
-		);
+		});
 
 		return () => subscription.unsubscribe();
 	});
