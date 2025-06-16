@@ -1,13 +1,16 @@
 import { createServerClient } from '@supabase/ssr';
-import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import type { Handle } from '@sveltejs/kit';
 
 export const supabaseServerClient: Handle = async ({ event, resolve }) => {
-	if (!PUBLIC_SUPABASE_URL || !PUBLIC_SUPABASE_ANON_KEY) {
-		throw new Error('Missing Supabase environment variables');
+	const SUPABASE_URL = env.PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+	const SUPABASE_ANON_KEY = env.PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
+
+	if (!env.PUBLIC_SUPABASE_URL || !env.PUBLIC_SUPABASE_ANON_KEY) {
+		console.warn('Supabase environment variables not configured. Authentication will not work.');
 	}
 
-	event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
+	event.locals.supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 		cookies: {
 			get: (key) => event.cookies.get(key),
 			set: (key, value, options) => {
