@@ -5,7 +5,7 @@
 	import { user, session } from '$lib/stores/auth';
 	import type { LayoutData } from './$types';
 
-	let { children, data }: { children: any; data: LayoutData } = $props();
+	let { children, data }: { children: import('svelte').Snippet; data: LayoutData } = $props();
 
 	$effect(() => {
 		if (data.session) {
